@@ -1,9 +1,10 @@
 import numpy as np
 
-from operations.matrix_operations import MatrixOperations
-from operations.vector_operations import VectorOperations
-from operations.line_operations import ParametricLine
-from operations.plane_operations import ParametricPlane
+from PenguinMol3D.operations.line_operations import ParametricLine
+from PenguinMol3D.operations.matrix_operations import MatrixOperations
+from PenguinMol3D.operations.plane_operations import ParametricPlane
+from PenguinMol3D.operations.vector_operations import VectorOperations
+
 
 class ParametricPipe:
     def __init__(self,
