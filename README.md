@@ -3,6 +3,17 @@
 PenguineMol3D is an open source Python3 package, which utilizes OpenGL python binding (https://pyopengl.sourceforge.net) for rendering of small compounds' 3D models. 
 # Installation
 
+**Basic installation**
+Project page on PyPI: https://pypi.org/project/PenguinMol3D/
+* pip install PenguinMol3D
+
+**Manual installation**
+1. Create root directory
+2. Clone the repository to root directory
+3. Move setup.py from the repository to root directory
+4. Open terminal and set current working directory to root directory
+5. pip install .
+   
 **Dependencies**
 
 * numpy
