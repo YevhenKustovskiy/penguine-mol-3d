@@ -1,6 +1,6 @@
 from OpenGL.GL import *
 
-from PenguinMol3D.geometries.base_geometry import BaseContinuousGeometry
+from PenguinMol3D.geometries.base_continuous_geometry import BaseContinuousGeometry
 from PenguinMol3D.materials.base_material import BaseMaterial
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 
