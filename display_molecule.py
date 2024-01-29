@@ -15,11 +15,14 @@
    with this program; if not, write to the Free Software Foundation, Inc.,
    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. """
 
-import os
 import glfw
 import glfw.GLFW as GLFW_CONSTANTS
 from OpenGL.GLUT import *
-from rdkit.Chem import MolFromMolFile, Kekulize
+from rdkit.Chem import (
+    MolFromMolFile,
+    MolFromMol2File,
+    Kekulize
+)
 
 from PenguinMol3D.general.renderer import Renderer
 from PenguinMol3D.objects.camera import Camera
@@ -30,7 +33,28 @@ from PenguinMol3D.objects.mol_3d import Mol3D
 from PenguinMol3D.objects.molecular_scene import MolecularScene
 from PenguinMol3D.objects.trackball import Trackball
 
-class GLFWScreenshotExample:
+
+def load_molecule(path: str, removeHs: bool = False):
+    """Loads molecular data from file using RDKit functions"""
+
+    mol_rdkit = None
+    ext = path.split(".")[-1]
+    if ext == "sdf" or ext == "mol":
+        mol_rdkit = MolFromMolFile(path,
+                                   sanitize=True,
+                                   removeHs=removeHs)
+
+    elif ext == "mol2":
+        mol_rdkit = MolFromMol2File(path,
+                                    sanitize=True,
+                                    removeHs=removeHs)
+    else:
+        raise Exception(f"{ext.upper()} format is not currently supported!")
+
+    Kekulize(mol_rdkit, clearAromaticFlags=True)
+    return mol_rdkit
+
+class PenguinMol3D:
     def __init__(self):
         self.title = "PenguinMol3D"
         self.width = 1000
@@ -68,7 +92,6 @@ class GLFWScreenshotExample:
         left_mouse_button = glfw.get_mouse_button(window, GLFW_CONSTANTS.GLFW_MOUSE_BUTTON_LEFT)
         if left_mouse_button == GLFW_CONSTANTS.GLFW_PRESS:
             if self.prev_pos:
-                """Use trackball to convert previuous and current cursor coordinates into rotational matrix"""
                 rotmat = Trackball.simulate_trackball([self.width, self.height],
                                                       [xpos, ypos],
                                                       [self.prev_pos[0], self.prev_pos[1]])
@@ -78,7 +101,6 @@ class GLFWScreenshotExample:
         right_mouse_button = glfw.get_mouse_button(window, GLFW_CONSTANTS.GLFW_MOUSE_BUTTON_RIGHT)
         if right_mouse_button == GLFW_CONSTANTS.GLFW_PRESS:
             if self.prev_pos:
-                """Scale object to achieve effect similar to zoom in/zoom out"""
                 if self.prev_pos[1] < ypos:
                     self.mol_3d.scale(1.1, local_coord=True)
                 else:
@@ -94,7 +116,8 @@ class GLFWScreenshotExample:
             self.running = False
 
         if key == GLFW_CONSTANTS.GLFW_KEY_S and action == GLFW_CONSTANTS.GLFW_PRESS:
-            self.renderer.save_frame(self.width, self.height, "penguinone.png")
+            filepath = sys.argv[1].split(".")[0] + ".png"
+            self.renderer.save_frame(self.width, self.height, filepath)
 
     def make_scene(self):
         """Create the Renderer object and setup the Scene"""
@@ -115,14 +138,8 @@ class GLFWScreenshotExample:
         self.point = Point(position=[2., 2., 2.])
         self.scene.add_child(self.point)
 
-        """Load molecular data from file using one of the RDKit functions"""
-        mol_rdkit = MolFromMolFile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "penguinone.sdf"),
-                                   sanitize=True,
-                                   removeHs=False)
-        Kekulize(mol_rdkit, clearAromaticFlags=True)
-
-        """Pass rdkit Mol object as an argument to Mol3D constructor"""
-        self.mol_3d = Mol3D(mol_rdkit)
+        """Load rdkit Mol object and pass it as an argument to Mol3D constructor"""
+        self.mol_3d = Mol3D(load_molecule(sys.argv[1]))
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
 
@@ -137,6 +154,6 @@ class GLFWScreenshotExample:
         glfw.terminate()
 
 if __name__ == "__main__":
-    app = GLFWScreenshotExample()
+    app = PenguinMol3D()
     app.run_application()
 

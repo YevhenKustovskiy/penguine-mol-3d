@@ -1,22 +1,38 @@
+"""PenguinMol3D: 3D visualization of small compounds
+   Copyright (C) 2024  Yevhen Kustovskiy
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. """
+
+
 import os
-from OpenGL.GLUT import *
 import glfw
 import glfw.GLFW as GLFW_CONSTANTS
+from OpenGL.GLUT import *
+from rdkit.Chem import MolFromMolFile, Kekulize
 
-from rdkit.Chem import MolFromMolFile, Kekulize, AllChem
-
-from objects.camera import Camera
-from objects.light.ambient import Ambient
-from objects.light.directional import Directional
-from objects.light.point import Point
-from objects.molecular_scene import MolecularScene
-from objects.mol_3d import Mol3D
-from general.renderer import Renderer
-
+from PenguinMol3D.general.renderer import Renderer
+from PenguinMol3D.objects.camera import Camera
+from PenguinMol3D.objects.light.ambient import Ambient
+from PenguinMol3D.objects.light.directional import Directional
+from PenguinMol3D.objects.light.point import Point
+from PenguinMol3D.objects.mol_3d import Mol3D
+from PenguinMol3D.objects.molecular_scene import MolecularScene
 
 class GLFWSurfaceExample:
     def __init__(self):
-        self.title = "PenguineMol3D"
+        self.title = "PenguinMol3D"
         self.width = 1000
         self.height = 800
         self.window = None
@@ -70,7 +86,7 @@ class GLFWSurfaceExample:
         self.scene.add_child(self.point)
 
         """Load molecular data from file using one of the RDKit functions"""
-        mol_rdkit = MolFromMolFile(os.path.join(os.getcwd(), "penguinone.sdf"),
+        mol_rdkit = MolFromMolFile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "penguinone.sdf"),
                                    sanitize=True,
                                    removeHs=False)
         Kekulize(mol_rdkit, clearAromaticFlags=True)
