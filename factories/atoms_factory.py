@@ -1,5 +1,5 @@
 from PenguinMol3D.general.globals import ELEMENT_COLORS
-from PenguinMol3D.geometries.atoms import (
+from PenguinMol3D.geometries.atoms.atoms_geometry import (
     HydrogenGeometry,
     HeliumGeometry,
     LithiumGeometry,
@@ -100,10 +100,8 @@ from PenguinMol3D.geometries.atoms import (
     EinsteiniumGeometry
 )
 
-#from PenguinMol3D.materials.atom_phong_material import PhongMaterial
-#from PenguinMol3D.objects.mesh import Mesh
-from materials.atom_phong_material import PhongMaterial
-from objects.mesh import Mesh
+from PenguinMol3D.materials.atom_phong_material import PhongMaterial
+from PenguinMol3D.objects.mesh import Mesh
 
 class Atom3D(Mesh):
     def __init__(self, geometry, material):
