@@ -4,6 +4,7 @@ PenguineMol3D is an open source Python3 package, which utilizes OpenGL python bi
 # Installation
 
 **Basic installation**
+
 Project page on PyPI: https://pypi.org/project/PenguinMol3D/
 * pip install PenguinMol3D
 
