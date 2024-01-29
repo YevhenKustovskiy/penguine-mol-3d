@@ -1,6 +1,6 @@
-from materials.base_material import BaseMaterial
 from OpenGL.GL import *
 
+from PenguinMol3D.materials.base_material import BaseMaterial
 
 class PhongMaterial(BaseMaterial):
     def __init__(self, texture=None, properties={}):

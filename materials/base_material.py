@@ -1,6 +1,7 @@
 from OpenGL.GL import *
-from general.opengl_utils import OpenGLUtils
-from general.uniform import Uniform
+
+from PenguinMol3D.general.opengl_utils import OpenGLUtils
+from PenguinMol3D.general.uniform import Uniform
 
 
 class BaseMaterial:
@@ -10,7 +11,6 @@ class BaseMaterial:
         self._program_ref = OpenGLUtils.initialize_program(vert_shader_code,
                                                            frag_shader_code)
         self._uniforms = {}
-        #self._uniforms["model_matrix"]     = Uniform(None, "mat4")
         self._uniforms["view_matrix"]       = Uniform(None, "mat4")
         self._uniforms["projection_matrix"] = Uniform(None, "mat4")
 
