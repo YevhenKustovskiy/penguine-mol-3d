@@ -1,22 +1,22 @@
-from general.globals import ELEMENT_COLOR
-from geometries.bonds.single_bond_geometry import SingleBondGeometry
-from geometries.bonds.double_bond_geometry import DoubleBondGeometry
-from geometries.bonds.triple_bond_geometry import TripleBondGeometry
-from geometries.base_geometry_group import BaseGeometryGroup
-from materials.bond_phong_material import PhongMaterial
-from objects.mesh import Mesh
-from operations.vector_operations import VectorOperations
-from operations.matrix_operations import MatrixOperations
-from objects.base_object_3d import BaseObject3D
-from rdkit.Chem.rdchem import BondType
 import numpy as np
-import time
-from general.attribute import Attribute
+from rdkit.Chem.rdchem import BondType
+
+from PenguinMol3D.general.globals import ELEMENT_COLORS
+from PenguinMol3D.geometries.base_geometry_group import BaseGeometryGroup
+from PenguinMol3D.geometries.bonds.bonds_geometry import (
+    DoubleBondGeometry,
+    SingleBondGeometry,
+    TripleBondGeometry
+)
+from PenguinMol3D.materials.bond_phong_material import PhongMaterial
+from PenguinMol3D.objects.mesh import Mesh
+from PenguinMol3D.operations.vector_operations import VectorOperations
+
 
 
 def translate_vector(path: np.ndarray, normal: np.ndarray, value):
     """Translates points of a bond path in a direction (axis)
-       orthogonal to path direction and normal of three atom's plane
+       orthogonal to path direction and normal of three atoms' plane
        NOTE: this transformation is nesessary to generate double and triple bonds
     """
     curr_dir = path[0] - path[1]
@@ -72,7 +72,6 @@ class DoubleBond(DoubleBondGeometry):
         self.merge(s_bond_geo)
 
 class TripleBond(TripleBondGeometry):
-    """Triple bond mesh"""
     def __init__(self,
                  path_points: list[list[float]],
                  path_colors: list[list[float]],
@@ -116,9 +115,9 @@ class BondsFactory:
                              end_atom_symbol: str,
                              normal: np.ndarray = None
                              ):
-        """Generates and returns a 3D model of bond with specified geometry (type) and material"""
-        beg_atom_color = ELEMENT_COLOR[beg_atom_symbol]
-        end_atom_color = ELEMENT_COLOR[end_atom_symbol]
+        """Generates a 3D model of bond with specified geometry (type) and material and merges it with other bonds"""
+        beg_atom_color = ELEMENT_COLORS[beg_atom_symbol]
+        end_atom_color = ELEMENT_COLORS[end_atom_symbol]
 
         curr_dir = np.array(path_points[0]) - np.array(path_points[1])
         curr_dir /= np.linalg.norm(curr_dir)
