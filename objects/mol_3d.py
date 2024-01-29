@@ -1,17 +1,11 @@
-import numpy as np
-from rdkit.Chem import (
-    Kekulize,
-    MolFromMolFile,
-    MolFromMol2File
-)
 from rdkit.Chem.rdchem import BondType, Mol, Atom
 
-from objects.base_object_3d import BaseObject3D
-from factories.atoms_factory import AtomsFactory, Atom3D
-from factories.bonds_factory import BondsFactory, Bonds3D
-from operations.plane_operations import ParametricPlane
-from operations.matrix_operations import MatrixOperations
-from general.bounding_box import BoundingBox
+from PenguinMol3D.factories.atoms_factory import AtomsFactory, Atom3D
+from PenguinMol3D.factories.bonds_factory import BondsFactory, Bonds3D
+from PenguinMol3D.general.bounding_box import BoundingBox
+from PenguinMol3D.objects.base_object_3d import BaseObject3D
+from PenguinMol3D.operations.matrix_operations import MatrixOperations
+from PenguinMol3D.operations.plane_operations import ParametricPlane
 
 
 class Mol3D(BaseObject3D):

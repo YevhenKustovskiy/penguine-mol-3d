@@ -1,11 +1,11 @@
 from OpenGL.GL import *
-from objects.base_object_3d import BaseObject3D
-from geometries.base_geometry import BaseGeometry
-from materials.base_material import BaseMaterial
 
+from PenguinMol3D.geometries.base_geometry import BaseContinuousGeometry
+from PenguinMol3D.materials.base_material import BaseMaterial
+from PenguinMol3D.objects.base_object_3d import BaseObject3D
 
 class Mesh(BaseObject3D):
-    def __init__(self, geometry: BaseGeometry, material: BaseMaterial):
+    def __init__(self, geometry: BaseContinuousGeometry, material: BaseMaterial):
         BaseObject3D.__init__(self)
         self._geometry = geometry
         self._material = material
@@ -20,7 +20,7 @@ class Mesh(BaseObject3D):
         glBindVertexArray(0)
 
     @property
-    def geometry(self) -> BaseGeometry:
+    def geometry(self) -> BaseContinuousGeometry:
         return self._geometry
 
     @property

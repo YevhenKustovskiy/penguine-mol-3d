@@ -1,5 +1,6 @@
 import numpy as np
-from operations.matrix_operations import MatrixOperations
+
+from PenguinMol3D.operations.matrix_operations import MatrixOperations
 
 
 class BaseObject3D:

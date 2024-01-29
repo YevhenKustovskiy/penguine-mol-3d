@@ -1,5 +1,4 @@
-from objects.light.base_light import BaseLight
-
+from PenguinMol3D.objects.light.base_light import BaseLight
 
 class Directional(BaseLight):
     def __init__(self,

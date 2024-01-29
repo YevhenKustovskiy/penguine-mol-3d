@@ -1,6 +1,8 @@
 import numpy as np
-from objects.base_object_3d import BaseObject3D
-from operations.matrix_operations import MatrixOperations
+
+from PenguinMol3D.objects.base_object_3d import BaseObject3D
+from PenguinMol3D.operations.matrix_operations import MatrixOperations
+
 
 class Camera(BaseObject3D):
     def __init__(self,

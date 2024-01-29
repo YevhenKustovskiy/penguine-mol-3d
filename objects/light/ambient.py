@@ -1,5 +1,4 @@
-from objects.light.base_light import BaseLight
-
+from PenguinMol3D.objects.light.base_light import BaseLight
 
 class Ambient(BaseLight):
     def __init__(self, color: list[float] = [1., 1., 1.]):
