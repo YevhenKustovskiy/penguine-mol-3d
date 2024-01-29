@@ -34,7 +34,6 @@ class BoundingBox:
     def z_center_factor(self) -> float:
         return self._z_center_factor
 
-
     @property
     def width(self) -> float:
         return self._width
@@ -46,7 +45,6 @@ class BoundingBox:
     @property
     def depth(self) -> float:
         return self._depth
-
 
     @property
     def center(self) -> list[float]:

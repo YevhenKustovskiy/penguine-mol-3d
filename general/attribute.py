@@ -1,6 +1,9 @@
+from ctypes import c_void_p
+
 import numpy as np
 from OpenGL.GL import *
-from ctypes import c_void_p
+
+
 class Attribute:
     def __init__(self, data: int|float|list, dtype: str):
 

@@ -1,8 +1,10 @@
 from OpenGL.GL import *
-from objects.camera import Camera
-from objects.molecular_scene import MolecularScene
-from objects.light.base_light import BaseLight
 from PIL.Image import frombytes
+
+from PenguinMol3D.objects.camera import Camera
+from PenguinMol3D.objects.light.base_light import BaseLight
+from PenguinMol3D.objects.molecular_scene import MolecularScene
+
 
 class Renderer:
     def __init__(self, clear_color: list[float] = [0., 0. ,0.]):
