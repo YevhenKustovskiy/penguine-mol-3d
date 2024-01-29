@@ -1,4 +1,4 @@
-from PenguinMol3D.geometries.base_geometry import BaseContinuousGeometry
+from PenguinMol3D.geometries.base_continuous_geometry import BaseContinuousGeometry
 from PenguinMol3D.operations.circle_operations import ParametricCircle
 from PenguinMol3D.operations.pipe_operations import ParametricPipe
 from PenguinMol3D.operations.vector_operations import VectorOperations
