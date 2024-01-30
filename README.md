@@ -12,7 +12,7 @@ Project page on PyPI: https://pypi.org/project/PenguinMol3D/
 1. Create root directory
 2. Clone the repository to root directory
 3. Move setup.py from the repository to root directory
-4. Open terminal and set current working directory to root directory
+4. Set current working directory to root directory
 5. pip install .
    
 **Dependencies**
