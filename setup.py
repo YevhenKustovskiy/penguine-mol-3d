@@ -6,7 +6,7 @@ with open(os.path.join("PenguinMol3D", "README.md"), "r", encoding = "utf-8") as
 
 setuptools.setup(
     name = "PenguinMol3D",
-    version = "0.1.0",
+    version = "0.1.1",
     author = "Yevhen Kustovskiy",
     author_email = "ykustovskiy@gmail.com",
     description = "3D visualization of small compounds",
@@ -29,12 +29,14 @@ setuptools.setup(
     "PenguinMol3D.geometries.bonds",
     "PenguinMol3D.geometries.shapes",
     "PenguinMol3D.materials",
+    "PenguinMol3D.materials.shaders",
     "PenguinMol3D.objects",
     "PenguinMol3D.objects.light",
     "PenguinMol3D.operations"
     ],
     package_data={
-      'PenguinMol3D': ["*.txt", "*.sdf", "*.md"],
+      "PenguinMol3D": ["*.txt", "*.sdf", "*.md"],
+      "PenguinMol3D.materials.shaders": ["*.vert", "*.frag"]
     },
     include_package_data=True,
     install_requires=[

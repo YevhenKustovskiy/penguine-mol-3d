@@ -28,7 +28,8 @@ from PenguinMol3D.objects.light.directional import Directional
 from PenguinMol3D.objects.light.point import Point
 from PenguinMol3D.objects.mol_3d import Mol3D
 from PenguinMol3D.objects.molecular_scene import MolecularScene
-from PenguinMol3D.objects.trackball import TrackballctionallarScene
+from PenguinMol3D.objects.trackball import Trackball
+
 
 class GLFWTransformationsExample:
     def __init__(self):
@@ -117,7 +118,8 @@ class GLFWTransformationsExample:
         Kekulize(mol_rdkit, clearAromaticFlags=True)
 
         """Pass rdkit Mol object as an argument to Mol3D constructor"""
-        self.mol_3d = Mol3D(mol_rdkit)
+        self.mol_3d = Mol3D(mol_rdkit,
+                            material_type="rubber")
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
 

@@ -34,6 +34,7 @@ from PenguinMol3D.objects.molecular_scene import MolecularScene
 from PenguinMol3D.objects.trackball import Trackball
 
 
+
 def load_molecule(path: str, removeHs: bool = False):
     """Loads molecular data from file using RDKit functions"""
 
@@ -139,7 +140,8 @@ class PenguinMol3D:
         self.scene.add_child(self.point)
 
         """Load rdkit Mol object and pass it as an argument to Mol3D constructor"""
-        self.mol_3d = Mol3D(load_molecule(sys.argv[1]))
+        self.mol_3d = Mol3D(load_molecule(sys.argv[1]),
+                            material_type="rubber")
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
 
