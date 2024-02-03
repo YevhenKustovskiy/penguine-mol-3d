@@ -1,5 +1,4 @@
 import numpy as np
-
 from PenguinMol3D.general.attribute import Attribute
 
 
