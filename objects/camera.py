@@ -1,5 +1,4 @@
 import numpy as np
-
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 from PenguinMol3D.operations.matrix_operations import MatrixOperations
 

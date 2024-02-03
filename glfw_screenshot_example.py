@@ -30,6 +30,7 @@ from PenguinMol3D.objects.mol_3d import Mol3D
 from PenguinMol3D.objects.molecular_scene import MolecularScene
 from PenguinMol3D.objects.trackball import Trackball
 
+
 class GLFWScreenshotExample:
     def __init__(self):
         self.title = "PenguinMol3D"
@@ -68,7 +69,7 @@ class GLFWScreenshotExample:
         left_mouse_button = glfw.get_mouse_button(window, GLFW_CONSTANTS.GLFW_MOUSE_BUTTON_LEFT)
         if left_mouse_button == GLFW_CONSTANTS.GLFW_PRESS:
             if self.prev_pos:
-                """Use trackball to convert previuous and current cursor coordinates into rotational matrix"""
+                """Use trackball to convert previous and current cursor coordinates into rotational matrix"""
                 rotmat = Trackball.simulate_trackball([self.width, self.height],
                                                       [xpos, ypos],
                                                       [self.prev_pos[0], self.prev_pos[1]])
@@ -122,7 +123,8 @@ class GLFWScreenshotExample:
         Kekulize(mol_rdkit, clearAromaticFlags=True)
 
         """Pass rdkit Mol object as an argument to Mol3D constructor"""
-        self.mol_3d = Mol3D(mol_rdkit)
+        self.mol_3d = Mol3D(mol_rdkit,
+                            material_type="rubber")
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
 

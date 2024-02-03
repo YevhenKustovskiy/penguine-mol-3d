@@ -1,6 +1,5 @@
 from PenguinMol3D.geometries.shapes.ellipsoid import Ellipsoid
 
-
 class Sphere(Ellipsoid):
     def __init__(self,
                  radius: int = 1,

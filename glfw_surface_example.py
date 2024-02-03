@@ -30,6 +30,7 @@ from PenguinMol3D.objects.light.point import Point
 from PenguinMol3D.objects.mol_3d import Mol3D
 from PenguinMol3D.objects.molecular_scene import MolecularScene
 
+
 class GLFWSurfaceExample:
     def __init__(self):
         self.title = "PenguinMol3D"
@@ -92,7 +93,8 @@ class GLFWSurfaceExample:
         Kekulize(mol_rdkit, clearAromaticFlags=True)
 
         """Pass rdkit Mol object as an argument to Mol3D constructor"""
-        self.mol_3d = Mol3D(mol_rdkit)
+        self.mol_3d = Mol3D(mol_rdkit,
+                            material_type="rubber")
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
 

@@ -8,8 +8,12 @@ from PenguinMol3D.operations.matrix_operations import MatrixOperations
 from PenguinMol3D.operations.plane_operations import ParametricPlane
 
 
+
 class Mol3D(BaseObject3D):
-    def __init__(self, mol: Mol):
+    def __init__(self,
+                 mol: Mol,
+                 material_type: str = "rubber"):
+
         BaseObject3D.__init__(self)
 
         self._mol_rdkit = mol
@@ -19,7 +23,7 @@ class Mol3D(BaseObject3D):
         self._bounding_box = None
         self._calc_bounding_box()
 
-        self._generate_3d_model()
+        self._generate_3d_model(material_type)
 
     @property
     def atoms(self) -> dict[Atom3D]:
@@ -67,12 +71,12 @@ class Mol3D(BaseObject3D):
 
         self._3d_atoms[atom_symbol].add_instance(transform)
 
-    def _generate_3d_model(self):
+    def _generate_3d_model(self, material_type: str):
         """Generates 3D model based on molecular data"""
 
         conformer = self._mol_rdkit.GetConformer(self._current_conformer)
-        atoms_factory = AtomsFactory()
-        bonds_factory = BondsFactory()
+        atoms_factory = AtomsFactory(material_type=material_type)
+        bonds_factory = BondsFactory(material_type=material_type)
 
         processed_atoms = []
         for bond in self._mol_rdkit.GetBonds():

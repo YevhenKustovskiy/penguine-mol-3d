@@ -1,7 +1,7 @@
 import numpy as np
-
 from PenguinMol3D.operations.matrix_operations import MatrixOperations
 from PenguinMol3D.operations.vector_operations import VectorOperations
+
 
 
 class Trackball:

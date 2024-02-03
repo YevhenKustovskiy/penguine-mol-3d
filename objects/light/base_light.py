@@ -1,5 +1,6 @@
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 
+
 class BaseLight(BaseObject3D):
     AMBIENT = 1
     DIRECTIONAL = 2

@@ -100,8 +100,9 @@ from PenguinMol3D.geometries.atoms.atoms_geometry import (
     EinsteiniumGeometry
 )
 
-from PenguinMol3D.materials.atom_phong_material import PhongMaterial
+from PenguinMol3D.factories.base_factory import BaseFactory
 from PenguinMol3D.objects.mesh import Mesh
+
 
 class Atom3D(Mesh):
     def __init__(self, geometry, material):
@@ -117,15 +118,17 @@ class Atom3D(Mesh):
         self.material.add_uniform(instance, "mat4", name)
         self.material.locate_uniform(name)
 
-class AtomsFactory:
-    def __init__(self):
+class AtomsFactory(BaseFactory):
+    def __init__(self, material_type: str = "rubber"):
+        BaseFactory.__init__(self, material_type=material_type)
         self._atoms_parameters = {}
 
     def get_atom_3d(self, atom_symbol: str) -> Atom3D:
         atom_3d = None
 
         if atom_symbol not in self._atoms_parameters:
-            material = PhongMaterial(properties={"base_color": ELEMENT_COLORS[atom_symbol]})
+            material = self.material_type(properties={"base_color": ELEMENT_COLORS[atom_symbol],
+                                                      "use_instanced_rendering" : True})
             material.settings["cull_face"] = True
             material.settings["back_side"] = False
             if   atom_symbol == "H":

@@ -1,6 +1,6 @@
 import numpy as np
-
 from PenguinMol3D.operations.vector_operations import VectorOperations
+
 
 class MatrixOperations:
 

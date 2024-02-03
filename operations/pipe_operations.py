@@ -1,5 +1,4 @@
 import numpy as np
-
 from PenguinMol3D.operations.line_operations import ParametricLine
 from PenguinMol3D.operations.matrix_operations import MatrixOperations
 from PenguinMol3D.operations.plane_operations import ParametricPlane
