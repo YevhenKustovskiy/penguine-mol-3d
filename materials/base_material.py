@@ -6,15 +6,27 @@ from PenguinMol3D.general.uniform import Uniform
 
 class BaseMaterial:
     """Base material class"""
-    def __init__(self, vert_shader_code: str, frag_shader_code: str):
+    def __init__(self, vert_shader_path: str, frag_shader_path: str):
 
-        self._program_ref = OpenGLUtils.initialize_program(vert_shader_code,
-                                                           frag_shader_code)
+        self._program_ref = OpenGLUtils.initialize_program(vert_shader_path,
+                                                           frag_shader_path)
+        """Transform related uniforms"""
         self._uniforms = {}
         self._uniforms["view_matrix"]       = Uniform(None, "mat4")
         self._uniforms["projection_matrix"] = Uniform(None, "mat4")
 
+        """Material related uniforms"""
+        self._uniforms["specular_strength"] = Uniform(None, "float")
+        self._uniforms["shininess"]         = Uniform(None, "float")
+
+        """Lighting related uniforms"""
+        self._uniforms["light0"]            = Uniform(None, "Light")
+        self._uniforms["light1"]            = Uniform(None, "Light")
+        self._uniforms["light2"]            = Uniform(None, "Light")
+        self._uniforms["light3"]            = Uniform(None, "Light")
+
         self._settings = {}
+        self._settings["use_instanced_rendering"] = False
         self._settings["draw_style"] = GL_TRIANGLES
 
     @property
