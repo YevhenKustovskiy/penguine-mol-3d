@@ -2,16 +2,16 @@ import numpy as np
 from rdkit.Chem.rdchem import BondType
 
 from PenguinMol3D.general.globals import ELEMENT_COLORS
+from PenguinMol3D.factories.base_factory import BaseFactory
 from PenguinMol3D.geometries.base_geometry_group import BaseGeometryGroup
 from PenguinMol3D.geometries.bonds.bonds_geometry import (
     DoubleBondGeometry,
     SingleBondGeometry,
     TripleBondGeometry
 )
-from PenguinMol3D.materials.bond_phong_material import PhongMaterial
+from PenguinMol3D.materials.materials import Materials
 from PenguinMol3D.objects.mesh import Mesh
 from PenguinMol3D.operations.vector_operations import VectorOperations
-
 
 
 def translate_vector(path: np.ndarray, normal: np.ndarray, value):
@@ -97,11 +97,13 @@ class TripleBond(TripleBondGeometry):
         self.merge(t_bond_geo)
 
 
-class BondsFactory:
+class BondsFactory(BaseFactory):
     """Generates 3D models of bonds"""
-    def __init__(self):
+    def __init__(self, material_type: str = "rubber"):
+        BaseFactory.__init__(self, material_type=material_type)
         self._bonds = BondsGeometry()
-        self._material = PhongMaterial(properties={"use_vertex_colors" : True})
+        self._material = self.material_type(properties={"use_vertex_colors" : True,
+                                                        "use_instanced_rendering" : False})
         self._material.settings["cull_face"] = True
         self._material.settings["front_side"] = False
         self._bond_types = {BondType.SINGLE : SingleBond,
