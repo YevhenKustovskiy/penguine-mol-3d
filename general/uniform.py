@@ -7,14 +7,6 @@ class Uniform:
         self._dtype = dtype
         self._variable_ref = None
 
-    def __iadd__(self, other):
-        self._data += other
-        return self
-
-    def __isub__(self, other):
-        self._data -= other
-        return self
-
     @property
     def data(self):
         return self._data

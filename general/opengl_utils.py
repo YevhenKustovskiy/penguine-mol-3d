@@ -2,9 +2,19 @@ from OpenGL.GL import *
 
 
 class OpenGLUtils:
+    SHADER_TYPE = {"vert" : GL_VERTEX_SHADER,
+                   "frag" : GL_FRAGMENT_SHADER}
     @staticmethod
-    def initialize_shader(shader_code: str, shader_type: str):
-        shader_code = f"#version 330 core\n{shader_code}"
+    def load_shader(shader_path: str) -> tuple[str, GL_SHADER_TYPE]:
+        shader_file = open(shader_path, "r")
+        shader_code = shader_file.read()
+        ext = shader_path.split(".")[-1]
+        shader_file.close()
+        return (shader_code, OpenGLUtils.SHADER_TYPE[ext])
+
+    @staticmethod
+    def initialize_shader(shader_path: str) -> int:
+        shader_code, shader_type = OpenGLUtils.load_shader(shader_path)
         shader_ref = glCreateShader(shader_type)
         glShaderSource(shader_ref, shader_code)
         glCompileShader(shader_ref)
@@ -18,13 +28,11 @@ class OpenGLUtils:
         return shader_ref
 
     @staticmethod
-    def initialize_program(vert_shader_code: str,
-                           frag_shader_code: str
-                           ):
-        vert_shader_ref = OpenGLUtils.initialize_shader(vert_shader_code,
-                                                          GL_VERTEX_SHADER)
-        frag_shader_ref = OpenGLUtils.initialize_shader(frag_shader_code,
-                                                          GL_FRAGMENT_SHADER)
+    def initialize_program(vert_shader_path: str,
+                           frag_shader_path: str
+                           ) -> int:
+        vert_shader_ref = OpenGLUtils.initialize_shader(vert_shader_path)
+        frag_shader_ref = OpenGLUtils.initialize_shader(frag_shader_path)
         program_ref = glCreateProgram()
 
         glAttachShader(program_ref, vert_shader_ref)
