@@ -4,6 +4,7 @@ from PenguinMol3D.geometries.base_continuous_geometry import BaseContinuousGeome
 from PenguinMol3D.materials.base_material import BaseMaterial
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 
+
 class Mesh(BaseObject3D):
     def __init__(self, geometry: BaseContinuousGeometry, material: BaseMaterial):
         BaseObject3D.__init__(self)
