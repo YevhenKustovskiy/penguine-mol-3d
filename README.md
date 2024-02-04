@@ -5,7 +5,7 @@ PenguinMol3D is an open source Python3 package, which utilizes OpenGL python bin
 * creat root folder and set it as current folder
 * clone this repository
 * move setup.py to root folder
-* pip install .
+* in root folder enter: pip install .
 
 **Dependencies**
 * numpy
