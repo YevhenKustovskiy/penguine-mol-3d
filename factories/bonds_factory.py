@@ -1,19 +1,17 @@
 import numpy as np
 from rdkit.Chem.rdchem import BondType
 
-from PenguinMol3D.general.globals import ELEMENT_COLORS
-from PenguinMol3D.factories.base_factory import BaseFactory
 from PenguinMol3D.geometries.base_geometry_group import BaseGeometryGroup
-from PenguinMol3D.geometries.bonds.bonds_geometry import (
-    DoubleBondGeometry,
-    SingleBondGeometry,
-    TripleBondGeometry
-)
-from PenguinMol3D.materials.materials import Materials
+from PenguinMol3D.geometries.bonds.bonds_geometry import *
 from PenguinMol3D.objects.mesh import Mesh
 from PenguinMol3D.operations.vector_operations import VectorOperations
+from PenguinMol3D.general.globals import ELEMENT_COLORS
+from PenguinMol3D.factories.base_factory import BaseFactory
 
-
+from PenguinMol3D.materials import (
+    phong_material as pm,
+    pbr_material as pb
+)
 def translate_vector(path: np.ndarray, normal: np.ndarray, value):
     """Translates points of a bond path in a direction (axis)
        orthogonal to path direction and normal of three atoms' plane
@@ -99,8 +97,11 @@ class TripleBond(TripleBondGeometry):
 
 class BondsFactory(BaseFactory):
     """Generates 3D models of bonds"""
-    def __init__(self, material_type: str = "rubber"):
-        BaseFactory.__init__(self, material_type=material_type)
+    def __init__(self,
+                 material_type: pm.PhongMaterial | pb.PBRMaterial = pb.PBRMaterial,
+                 color_scale: float = 1.0):
+
+        BaseFactory.__init__(self, material_type=material_type, color_scale=color_scale)
         self._bonds = BondsGeometry()
         self._material = self.material_type(properties={"use_vertex_colors" : True,
                                                         "use_instanced_rendering" : False})
@@ -110,6 +111,7 @@ class BondsFactory(BaseFactory):
                             BondType.DOUBLE : DoubleBond,
                             BondType.TRIPLE : TripleBond}
 
+
     def create_bond_geometry(self,
                              path_points: list[list[float]],
                              bond_type: BondType,
@@ -118,14 +120,14 @@ class BondsFactory(BaseFactory):
                              normal: np.ndarray = None
                              ):
         """Generates a 3D model of bond with specified geometry (type) and material and merges it with other bonds"""
-        beg_atom_color = ELEMENT_COLORS[beg_atom_symbol]
-        end_atom_color = ELEMENT_COLORS[end_atom_symbol]
+        beg_atom_color = np.array(ELEMENT_COLORS[beg_atom_symbol]) * self.color_scale
+        end_atom_color = np.array(ELEMENT_COLORS[end_atom_symbol]) * self.color_scale
 
         curr_dir = np.array(path_points[0]) - np.array(path_points[1])
         curr_dir /= np.linalg.norm(curr_dir)
 
         midpoint = np.array(VectorOperations.calc_midpoint(path_points[0],
-                                                  path_points[1]))
+                                                           path_points[1]))
 
         midpoint1 = midpoint.copy()
         midpoint1 -= (0.0001 * curr_dir)

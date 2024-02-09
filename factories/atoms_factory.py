@@ -1,107 +1,12 @@
+import numpy as np
 from PenguinMol3D.general.globals import ELEMENT_COLORS
-from PenguinMol3D.geometries.atoms.atoms_geometry import (
-    HydrogenGeometry,
-    HeliumGeometry,
-    LithiumGeometry,
-    BerylliumGeometry,
-    BoronGeometry,
-    CarbonGeometry,
-    NitrogenGeometry,
-    OxygenGeometry,
-    FluorineGeometry,
-    NeonGeometry,
-    SodiumGeometry,
-    MagnesiumGeometry,
-    AluminumGeometry,
-    SiliconGeometry,
-    PhosphorusGeometry,
-    SulfurGeometry,
-    ChlorineGeometry,
-    ArgonGeometry,
-    PotassiumGeometry,
-    CalciumGeometry,
-    ScandiumGeometry,
-    TitaniumGeometry,
-    VanadiumGeometry,
-    ChromiumGeometry,
-    ManganeseGeometry,
-    IronGeometry,
-    CobaltGeometry,
-    NickelGeometry,
-    CopperGeometry,
-    ZincGeometry,
-    GalliumGeometry,
-    GermaniumGeometry,
-    ArsenicGeometry,
-    SeleniumGeometry,
-    BromineGeometry,
-    KryptonGeometry,
-    RubidiumGeometry,
-    StrontiumGeometry,
-    YttriumGeometry,
-    ZirconiumGeometry,
-    NiobiumGeometry,
-    MolybdenumGeometry,
-    TechnetiumGeometry,
-    RutheniumGeometry,
-    RhodiumGeometry,
-    PalladiumGeometry,
-    SilverGeometry,
-    CadmiumGeometry,
-    IndiumGeometry,
-    TinGeometry,
-    AntimonyGeometry,
-    TelluriumGeometry,
-    IodineGeometry,
-    XenonGeometry,
-    CaesiumGeometry,
-    BariumGeometry,
-    LanthanumGeometry,
-    CeriumGeometry,
-    PraseodymiumGeometry,
-    NeodymiumGeometry,
-    PromethiumGeometry,
-    SamariumGeometry,
-    EuropiumGeometry,
-    GadoliniumGeometry,
-    TerbiumGeometry,
-    DysprosiumGeometry,
-    HolmiumGeometry,
-    ErbiumGeometry,
-    ThuliumGeometry,
-    YtterbiumGeometry,
-    LutetiumGeometry,
-    HafniumGeometry,
-    TantalumGeometry,
-    TungstenGeometry,
-    RheniumGeometry,
-    OsmiumGeometry,
-    IridiumGeometry,
-    PlatinumGeometry,
-    GoldGeometry,
-    MercuryGeometry,
-    ThalliumGeometry,
-    BismuthGeometry,
-    PoloniumGeometry,
-    AstatineGeometry,
-    RadonGeometry,
-    FranciumGeometry,
-    RadiumGeometry,
-    ActiniumGeometry,
-    ThoriumGeometry,
-    ProtactiniumGeometry,
-    UraniumGeometry,
-    NeptuniumGeometry,
-    PlutoniumGeometry,
-    AmericiumGeometry,
-    CuriumGeometry,
-    BerkeliumGeometry,
-    CaliforniumGeometry,
-    EinsteiniumGeometry
-)
-
-from PenguinMol3D.factories.base_factory import BaseFactory
+from PenguinMol3D.geometries.atoms.atoms_geometry import *
 from PenguinMol3D.objects.mesh import Mesh
+from PenguinMol3D.factories.base_factory import BaseFactory
+from PenguinMol3D.materials import (
+    phong_material as pm,
+    pbr_material as pb
+)
 
 
 class Atom3D(Mesh):
@@ -119,15 +24,17 @@ class Atom3D(Mesh):
         self.material.locate_uniform(name)
 
 class AtomsFactory(BaseFactory):
-    def __init__(self, material_type: str = "rubber"):
-        BaseFactory.__init__(self, material_type=material_type)
+    def __init__(self,
+                 material_type: pm.PhongMaterial | pb.PBRMaterial = pb.PBRMaterial,
+                 color_scale: float = 1.0):
+        BaseFactory.__init__(self, material_type=material_type, color_scale=color_scale)
         self._atoms_parameters = {}
 
     def get_atom_3d(self, atom_symbol: str) -> Atom3D:
         atom_3d = None
 
         if atom_symbol not in self._atoms_parameters:
-            material = self.material_type(properties={"base_color": ELEMENT_COLORS[atom_symbol],
+            material = self.material_type(properties={"base_color": np.array(ELEMENT_COLORS[atom_symbol]) * self.color_scale,
                                                       "use_instanced_rendering" : True})
             material.settings["cull_face"] = True
             material.settings["back_side"] = False
