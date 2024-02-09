@@ -6,7 +6,7 @@ with open(os.path.join("PenguinMol3D", "README.md"), "r", encoding = "utf-8") as
 
 setuptools.setup(
     name = "PenguinMol3D",
-    version = "0.1.1",
+    version = "0.1.3",
     author = "Yevhen Kustovskiy",
     author_email = "ykustovskiy@gmail.com",
     description = "3D visualization of small compounds",
