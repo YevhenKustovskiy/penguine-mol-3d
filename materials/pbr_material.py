@@ -3,19 +3,14 @@ from OpenGL.GL import *
 from PenguinMol3D.materials.base_material import BaseMaterial
 
 """
-   This module contains material class, which uses a classic Blinn-Phong lighting model. 
+   This module contains class, which uses a modern physically based lighting model. 
    You can create your own materials by subclassing it and configuring 
-   'shininess' and 'specular strength' uniform values to get unique visual appearance
-   
-   You can get Shininess of different Phong materials following this link:
-   http://web.archive.org/web/20100725103839/http://www.cs.utk.edu/~kuck/materials_ogl.htm
-   
-   NOTE: to get comparable result with Blinn-Phong lighting model this values should be increased in 2-4 fold.
-   
-   Also, check 'phong_materials' module for ready to use presets
+   'metallic', 'roughness', and 'ao' uniform values to get unique visual appearance
+
+   NOTE: a sum of 'metallic' and 'roughness' should not exceed 1.0
 """
 
-class PhongMaterial(BaseMaterial):
+class PBRMaterial(BaseMaterial):
     def __init__(self, properties={}):
 
         vert_shader_name = "base.vert"
@@ -28,7 +23,7 @@ class PhongMaterial(BaseMaterial):
 
         frag_shader_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                         "shaders",
-                                        "blinn_phong_material.frag")
+                                        "pbr_material.frag")
 
         BaseMaterial.__init__(self, vert_shader_path, frag_shader_path)
 
@@ -39,8 +34,10 @@ class PhongMaterial(BaseMaterial):
         self.add_uniform([1., 1., 1.], "vec3", "base_color")
         self.add_uniform([0., 0., 0.], "vec3", "view_position")
 
-        self.add_uniform(1., "float", "specular_strength")
-        self.add_uniform(20., "float", "shininess")
+        # Physics based rendering uniforms
+        self.add_uniform(0.5, "float", "metallic")
+        self.add_uniform(0.5, "float", "roughness")
+        self.add_uniform(1.0, "float", "ao")
 
         self.locate_uniforms()
 

@@ -19,11 +19,9 @@ class BaseMaterial:
         self._uniforms["specular_strength"] = Uniform(None, "float")
         self._uniforms["shininess"]         = Uniform(None, "float")
 
-        """Lighting related uniforms"""
-        self._uniforms["light0"]            = Uniform(None, "Light")
-        self._uniforms["light1"]            = Uniform(None, "Light")
-        self._uniforms["light2"]            = Uniform(None, "Light")
-        self._uniforms["light3"]            = Uniform(None, "Light")
+        """Post processing"""
+        self._uniforms["use_tone_mapping"] = Uniform(True, "bool")
+        self._uniforms["use_gamma_correction"] = Uniform(True, "bool")
 
         self._settings = {}
         self._settings["use_instanced_rendering"] = False
