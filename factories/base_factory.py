@@ -1,27 +1,21 @@
-from PenguinMol3D.materials.materials import Materials
+from PenguinMol3D.materials import (
+    phong_material as pm,
+    pbr_material as pb
+)
+
 
 class BaseFactory:
-    def __init__(self, material_type: str = "rubber"):
-        self._material_type = None
-        if material_type == "brass":
-            self._material_type = Materials.Brass
-        elif material_type == "bronze":
-            self._material_type = Materials.Bronze
-        elif material_type == "chrome":
-            self._material_type = Materials.Chrome
-        elif material_type == "copper":
-            self._material_type = Materials.Copper
-        elif material_type == "gold":
-            self._material_type = Materials.Gold
-        elif material_type == "obsidian":
-            self._material_type = Materials.Obsidian
-        elif material_type == "pearl":
-            self._material_type = Materials.Pearl
-        elif material_type == "plastic":
-            self._material_type = Materials.Plastic
-        elif material_type == "rubber":
-            self._material_type = Materials.Rubber
+    def __init__(self,
+                 material_type: pm.PhongMaterial | pb.PBRMaterial = pb.PBRMaterial,
+                 color_scale: float = 1.0):
+
+        self._material_type = material_type
+        self._color_scale = color_scale
 
     @property
     def material_type(self):
         return self._material_type
+
+    @property
+    def color_scale(self):
+        return self._color_scale

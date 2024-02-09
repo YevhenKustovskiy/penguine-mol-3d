@@ -1,5 +1,7 @@
 import numpy as np
+
 from PenguinMol3D.geometries.base_parametric_geometry import BaseParametricGeometry
+#from geometries.base_parametric_geometry import BaseParametricGeometry
 
 
 class Ellipsoid(BaseParametricGeometry):

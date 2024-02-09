@@ -1,6 +1,5 @@
 from OpenGL.GL import *
 
-
 class OpenGLUtils:
     SHADER_TYPE = {"vert" : GL_VERTEX_SHADER,
                    "frag" : GL_FRAGMENT_SHADER}

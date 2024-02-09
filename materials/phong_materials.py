@@ -12,72 +12,72 @@ class BrassMaterial(PhongMaterial):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 27.8974
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 83.6922   #Phong 27.8974
+
 
 class BronzeMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 25.6
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 76.8       #Phong 25.6
+
 
 class ChromeMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 76.8
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 230.4      #Phong 76.8
+
 
 class CopperMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 12.8
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 38.4       #Phong 51.2
+
 
 class GoldMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 51.2
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 153.6      #Phong 51.2
+
 
 class ObsidianMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 38.4
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 115.2      #Phong 38.4
+
 
 class PearlMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 11.264
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 33.792     #Phong 11.264
+
 
 class PlasticMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 32.
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 96.        #Phong 32.
+
 
 class RubberMaterial(PhongMaterial):
     def __init__(self, properties: dict = {}):
         PhongMaterial.__init__(self, properties)
 
         self.uniforms["specular_strength"].data = 1.
-        self.uniforms["shininess"].data = 10.
-        self.locate_uniforms()
+        self.uniforms["shininess"].data = 30.         #Phong 10.
+
 
 
 class Materials:

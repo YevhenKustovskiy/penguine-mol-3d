@@ -1,6 +1,6 @@
 import numpy as np
-from PenguinMol3D.general.attribute import Attribute
 
+from PenguinMol3D.general.attribute import Attribute
 
 class BaseSingularGeometry:
     def __init__(self):

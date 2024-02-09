@@ -1,6 +1,7 @@
 import numpy as np
-from PenguinMol3D.operations.line_operations import ParametricLine
 
+from PenguinMol3D.operations.line_operations import ParametricLine
+#from operations.line_operations import ParametricLine
 
 class ParametricPlane:
 
