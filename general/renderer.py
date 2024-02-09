@@ -10,14 +10,17 @@ class Renderer:
     def __init__(self, clear_color: list[float] = [0., 0. ,0.]):
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_MULTISAMPLE)
+        glEnable(GL_FRAMEBUFFER_SRGB)
         glClearColor(clear_color[0], clear_color[1], clear_color[2], 1)
 
     def _render_lights(self, lights, mesh):
-        if "light0" in mesh.material.uniforms.keys():
-            for light_number in range(4):
-                light_name = f"light{str(light_number)}"
-                light_object = lights[light_number]
+        for no, light_object in enumerate(lights):
+            light_name = f"lights[{no}]"
+            if light_name in mesh.material.uniforms:
                 mesh.material.uniforms[light_name].data = light_object
+            else:
+                mesh.material.add_uniform(light_object, "Light", light_name)
+                mesh.material.locate_uniform(light_name)
 
     def _render_atoms(self, atoms, lights, camera_pos, camera_view, camera_proj):
         for atom in atoms:
@@ -78,8 +81,8 @@ class Renderer:
         light_filter = lambda x: isinstance(x, BaseLight)
         lights = list(filter(light_filter, descendants))
 
-        while len(lights) < 4:
-            lights.append(BaseLight())
+        #while len(lights) < 4:
+        #    lights.append(BaseLight())
 
         camera_pos  = camera.get_world_position()
         camera_view = camera.view
@@ -89,6 +92,7 @@ class Renderer:
 
         self._render_atoms(molecule.atoms.values(), lights, camera_pos, camera_view, camera_proj)
         self._render_bonds(molecule.bonds, lights, camera_pos, camera_view, camera_proj)
+
 
     def save_frame(self, width: int, height: int, filepath: str):
         content = glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE)
