@@ -1,6 +1,7 @@
 import numpy as np
-from PenguinMol3D.operations.vector_operations import VectorOperations
 
+from PenguinMol3D.operations.vector_operations import VectorOperations
+#from operations.vector_operations import VectorOperations
 
 class MatrixOperations:
 
@@ -53,59 +54,6 @@ class MatrixOperations:
                          [0., 0., -1., 0.]],
                         dtype=np.float32)
 
-    @staticmethod
-    def rotate_align(unit_vec1: np.ndarray, unit_vec2: np.ndarray) -> np.ndarray:
-        axis = np.cross(unit_vec1, unit_vec2)
-        cos_a = np.dot(unit_vec1, unit_vec2)
-        k = 1.0 / 1.0 + cos_a
-
-        return np.array([[axis[0] * axis[0] * k + cos_a,
-                          axis[1] * axis[0] * k - axis[2],
-                          axis[2] * axis[0] * k + axis[1],
-                          0.],
-                         [axis[0] * axis[1] * k + axis[2],
-                          axis[1] * axis[1] * k + cos_a,
-                          axis[2] * axis[1] * k - axis[0],
-                          0.],
-                         [axis[0] * axis[2] * k - axis[1],
-                          axis[1] * axis[2] * k + axis[0],
-                          axis[2] * axis[2] * k + cos_a,
-                          0.],
-                         [0., 0., 0., 1.]])
-        """angle = np.arccos(np.dot(unit_vec1, unit_vec2))
-        axis = np.cross(unit_vec1, unit_vec2)
-        cos = np.cos(angle)
-        sin = np.sin(angle)
-        t = 1 - cos
-        return np.array(  [[cos + axis[0] * axis[0] * t,
-                            axis[0] * axis[1] * t - axis[2] * sin,
-                            axis[0] * axis[2] * t + axis[1] * sin,
-                            0.],
-                           [axis[1] * axis[0] * t + axis[2] * sin,
-                            cos + (axis[1] * axis[1]) * t,
-                            axis[1] * axis[2] * t - axis[0] * sin,
-                            0.],
-                           [axis[2] * axis[0] * t - axis[1] * sin,
-                            axis[2] * axis[1] * t + axis[0] * sin,
-                            cos + axis[2] * axis[2] * t,
-                            0.],
-                           [0., 0., 0., 1.]])"""
-
-    @staticmethod
-    def rotate_align_rodrigues(unit_vec1: np.ndarray, unit_vec2: np.ndarray) -> np.ndarray:
-        angle = np.arccos(np.dot(unit_vec1, unit_vec2))
-        axis = np.cross(unit_vec1, unit_vec2)
-        cos = np.cos(angle)
-        sin = np.sin(angle)
-        t = 1 - cos
-
-        identity = MatrixOperations.make_identity()
-        skew = np.array([[ 0.,      -axis[2],  axis[1], 0.],
-                         [ axis[2],  0.,      -axis[0], 0.],
-                         [-axis[1],  axis[0],  0.     , 0.],
-                         [ 0.,       0.,       0.,      1.]])
-
-        return identity + skew + (t * np.dot(skew, skew))
 
     @staticmethod
     def rotate_align_quaternion(unit_vec1: np.ndarray, unit_vec2: np.ndarray) -> np.ndarray:
@@ -121,8 +69,6 @@ class MatrixOperations:
         qy = q[1]
         qz = q[2]
         qw = q[3]
-
-        #return rotation matrix
 
         return np.array([[1. - 2. * (qy * qy + qz * qz),
                           2.      * (qx * qy - qz * qw),
