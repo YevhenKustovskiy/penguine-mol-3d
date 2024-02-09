@@ -58,3 +58,6 @@ Main folder also contains script, which can be used for small molecule visualiza
 
 * python3 -m PenguinMol3D.display_molecule molecule_name.sdf
 
+# Demonstration
+![demonstration4](https://github.com/YevhenKustovskiy/penguine-mol-3d/assets/136888021/61c5730e-50e1-49da-9b35-536a2adff283)
+
