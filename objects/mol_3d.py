@@ -1,18 +1,16 @@
 from rdkit.Chem.rdchem import BondType, Mol, Atom
-
-from PenguinMol3D.factories.atoms_factory import AtomsFactory, Atom3D
-from PenguinMol3D.factories.bonds_factory import BondsFactory, Bonds3D
 from PenguinMol3D.general.bounding_box import BoundingBox
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 from PenguinMol3D.operations.matrix_operations import MatrixOperations
 from PenguinMol3D.operations.plane_operations import ParametricPlane
-
-
+from PenguinMol3D.factories.atoms_factory import AtomsFactory, Atom3D
+from PenguinMol3D.factories.bonds_factory import BondsFactory, Bonds3D
 
 class Mol3D(BaseObject3D):
     def __init__(self,
                  mol: Mol,
-                 material_type: str = "rubber"):
+                 material_type: str = "rubber",
+                 color_scale: float = 1.0):
 
         BaseObject3D.__init__(self)
 
@@ -23,7 +21,7 @@ class Mol3D(BaseObject3D):
         self._bounding_box = None
         self._calc_bounding_box()
 
-        self._generate_3d_model(material_type)
+        self._generate_3d_model(material_type, color_scale)
 
     @property
     def atoms(self) -> dict[Atom3D]:
@@ -71,12 +69,12 @@ class Mol3D(BaseObject3D):
 
         self._3d_atoms[atom_symbol].add_instance(transform)
 
-    def _generate_3d_model(self, material_type: str):
+    def _generate_3d_model(self, material_type: str, color_scale: float):
         """Generates 3D model based on molecular data"""
 
         conformer = self._mol_rdkit.GetConformer(self._current_conformer)
-        atoms_factory = AtomsFactory(material_type=material_type)
-        bonds_factory = BondsFactory(material_type=material_type)
+        atoms_factory = AtomsFactory(material_type=material_type, color_scale=color_scale)
+        bonds_factory = BondsFactory(material_type=material_type, color_scale=color_scale)
 
         processed_atoms = []
         for bond in self._mol_rdkit.GetBonds():

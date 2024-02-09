@@ -2,7 +2,6 @@ import numpy as np
 from PenguinMol3D.operations.matrix_operations import MatrixOperations
 
 
-
 class BaseObject3D:
     def __init__(self):
         self._transform = MatrixOperations.make_identity()

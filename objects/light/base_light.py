@@ -1,6 +1,5 @@
 from PenguinMol3D.objects.base_object_3d import BaseObject3D
 
-
 class BaseLight(BaseObject3D):
     AMBIENT = 1
     DIRECTIONAL = 2
@@ -9,7 +8,7 @@ class BaseLight(BaseObject3D):
         BaseObject3D.__init__(self)
         self._light_type  = light_type
         self._color       = [1., 1., 1.]
-        self._attenuation = [1., 0., 0.]
+        self._attenuation = [0., 0., 0.]
 
     @property
     def light_type(self) -> int:
