@@ -26,15 +26,17 @@ from PenguinMol3D.objects.camera import Camera
 from PenguinMol3D.objects.light.directional import Directional
 from PenguinMol3D.objects.mol_3d import Mol3D
 from PenguinMol3D.objects.molecular_scene import MolecularScene
+from PenguinMol3D.objects.trackball import Trackball
 from PenguinMol3D.materials.pbr_material import PBRMaterial
 
-class GLFWSurfaceExample:
+class GLFWScreenshotExample:
     def __init__(self):
-        self.title = "PenguinMol3D - GLFW surface example"
+        self.title = "PenguinMol3D - Physically Based Lighting Model example"
         self.width = 1000
         self.height = 800
         self.window = None
         self.running = True
+        self.prev_pos = None
 
         self.make_glfw_window()
         self.make_scene()
@@ -46,15 +48,13 @@ class GLFWSurfaceExample:
         glfw.window_hint(GLFW_CONSTANTS.GLFW_RESIZABLE, GLFW_CONSTANTS.GLFW_FALSE)
         glfw.window_hint(GLFW_CONSTANTS.GLFW_CONTEXT_VERSION_MAJOR, 3)
         glfw.window_hint(GLFW_CONSTANTS.GLFW_CONTEXT_VERSION_MINOR, 1)
-        glfw.window_hint(GLFW_CONSTANTS.GLFW_SAMPLES, 4)
-        glfw.window_hint(GLFW_CONSTANTS.GLFW_DEPTH_BITS, 16)
-        glfw.window_hint(GLFW_CONSTANTS.GLFW_RED_BITS, 16)
-        glfw.window_hint(GLFW_CONSTANTS.GLFW_GREEN_BITS, 16)
-        glfw.window_hint(GLFW_CONSTANTS.GLFW_BLUE_BITS, 16)
+        glfw.window_hint(GLFW_CONSTANTS.GLFW_SAMPLES, 8)
+        glfw.window_hint(GLFW_CONSTANTS.GLFW_DEPTH_BITS, 24)
 
         self.window = glfw.create_window(self.width, self.height, self.title, None, None)
 
         glfw.set_key_callback(self.window, self.key_callback)
+        glfw.set_cursor_pos_callback(self.window, self.mouse_cursor_callback)
         glfw.set_window_close_callback(self.window, self.close_callback)
 
         glfw.make_context_current(self.window)
@@ -63,9 +63,37 @@ class GLFWSurfaceExample:
     def close_callback(self, window):
         self.running = False
 
-    def key_callback(self, window, key, scancode, action, mods):
+    def mouse_cursor_callback(self, window, xpos: float, ypos: float):
+        left_mouse_button = glfw.get_mouse_button(window, GLFW_CONSTANTS.GLFW_MOUSE_BUTTON_LEFT)
+        if left_mouse_button == GLFW_CONSTANTS.GLFW_PRESS:
+            if self.prev_pos:
+                """Use trackball to convert previous and current cursor coordinates into rotational matrix"""
+                rotmat = Trackball.simulate_trackball([self.width, self.height],
+                                                      [xpos, ypos],
+                                                      [self.prev_pos[0], self.prev_pos[1]])
+                self.mol_3d.apply_transform(rotmat, local_coord=False)
+            self.prev_pos = (xpos, ypos)
+
+        right_mouse_button = glfw.get_mouse_button(window, GLFW_CONSTANTS.GLFW_MOUSE_BUTTON_RIGHT)
+        if right_mouse_button == GLFW_CONSTANTS.GLFW_PRESS:
+            if self.prev_pos:
+                """Scale object to get effect similar to zoom in/zoom out"""
+                if self.prev_pos[1] < ypos:
+                    self.mol_3d.scale(1.1, local_coord=True)
+                else:
+                    self.mol_3d.scale(0.9, local_coord=True)
+            self.prev_pos = (xpos, ypos)
+
+        if left_mouse_button == GLFW_CONSTANTS.GLFW_RELEASE and \
+                right_mouse_button == GLFW_CONSTANTS.GLFW_RELEASE:
+            self.prev_pos = None
+
+    def key_callback(self, window, key: int, scancode: int, action: int, mods):
         if key == GLFW_CONSTANTS.GLFW_KEY_ESCAPE and action == GLFW_CONSTANTS.GLFW_PRESS:
             self.running = False
+
+        if key == GLFW_CONSTANTS.GLFW_KEY_S and action == GLFW_CONSTANTS.GLFW_PRESS:
+            self.renderer.save_frame(self.width, self.height, "penguinone.png")
 
     def make_scene(self):
         """Create the Renderer object and setup the Scene"""
@@ -73,23 +101,24 @@ class GLFWSurfaceExample:
         self.scene = MolecularScene()
         self.camera = Camera(angle_of_view=60,
                              aspect_ratio=self.width / self.height,
-                             far=100)
+                             far=1000)
 
         """Load molecular data from file using one of the RDKit functions"""
         mol_rdkit = MolFromMolFile(os.path.join(os.path.dirname(os.path.abspath(__file__)), "penguinone.sdf"),
                                    sanitize=True,
                                    removeHs=False)
+
         Kekulize(mol_rdkit, clearAromaticFlags=True)
 
         """Pass rdkit Mol object as an argument to Mol3D constructor"""
         self.mol_3d = Mol3D(mol_rdkit,
-                            material_type=PBRMaterial)
+                            material_type=PBRMaterial,
+                            color_scale=1.0)
         self.scene.add_molecule(self.mol_3d)
         self.camera.set_bb_based_position(self.mol_3d.bounding_box)
-        self.mol_3d.bounding_box.center
 
         dl0 = Directional(color=[300.0, 300.0, 300.0])
-        dl0.set_position([8., 8., 8])
+        dl0.set_position([8.,8.,8])
         dl0.look_at(self.scene.get_position())
         self.scene.add_child(dl0)
 
@@ -106,7 +135,6 @@ class GLFWSurfaceExample:
     def run_application(self):
         """Run application event loop until user decides to quit"""
         while self.running:
-            self.mol_3d.rotate_y(0.005)
             self.renderer.render(self.scene, self.camera)
             glfw.swap_buffers(self.window)
             glfw.poll_events()
@@ -115,6 +143,6 @@ class GLFWSurfaceExample:
         glfw.terminate()
 
 if __name__ == "__main__":
-    app = GLFWSurfaceExample()
+    app = GLFWScreenshotExample()
     app.run_application()
 
